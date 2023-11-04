@@ -79,6 +79,9 @@ class Staff(User):
 class StaffProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     staff_id = models.IntegerField(null=True, blank=True)
+    staff_start_time = models.TimeField(null=True, blank=True)
+    staff_end_time = models.TimeField(null=True, blank=True)
+
 
 
 @receiver(post_save, sender=Staff)
