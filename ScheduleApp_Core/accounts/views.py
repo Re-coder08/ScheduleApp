@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from django.contrib.auth import authenticate, login, logout
+from django.template import RequestContext
+
 
 from .models import Staff, Customer, User
-from .forms import StaffSignUpForm, CustomerSignUpForm, AdminSignUpForm
+from .forms import StaffSignUpForm, CustomerSignUpForm, AdminSignUpForm, LoginForm
 # Create your views here.
 
 def HomePage(request):
@@ -69,3 +73,32 @@ def AdminSignUp(request):
         form = AdminSignUpForm()
 
         return render(request, 'CustomSignUpPage.html', {'form': form, 'formType': formType})
+    
+
+
+def LoginView(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            user = authenticate(request, username=username, password=password)
+            print("user ::: {}".format(user))
+            if user is not None:
+                login(request, user)
+                print("User Logged in !!")
+                return redirect('Home')
+
+            else: 
+                print("Auth failed")
+
+
+    else:
+        form = LoginForm()
+        return render(request, 'LoginPage.html', {'form':form})
+    
+
+def LogoutView(request):
+    logout(request)
+    return redirect('Home')
