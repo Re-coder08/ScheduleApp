@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'ScheduleApp_Core.middleware.SessionTimeoutMiddleware',
 ]
 
 ROOT_URLCONF = 'ScheduleApp_Core.urls'
@@ -123,5 +124,19 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# Custom user model : Staff, Customer, Admin
 AUTH_USER_MODEL = "accounts.User"
+
+#Login Redirect URL
+LOGIN_REDIRECT_URL = "home" # home is tag/name for the homepage. Check the main url mapping.
+LOGOUT_REDIRECT_URL = "home"
+
+#Sending Emails
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# Session timeout of 5 minutes
+SESSION_COOKIE_AGE = 300  # 300 seconds (5 minutes)
+
