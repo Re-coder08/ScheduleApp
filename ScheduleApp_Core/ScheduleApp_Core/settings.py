@@ -129,8 +129,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "accounts.User"
 
 #Login Redirect URL
-LOGIN_REDIRECT_URL = "home" # home is tag/name for the homepage. Check the main url mapping.
-LOGOUT_REDIRECT_URL = "home"
+LOGIN_REDIRECT_URL = "Home" # home is tag/name for the homepage. Check the main url mapping.
+LOGOUT_REDIRECT_URL = "Home"
 
 #Sending Emails
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"

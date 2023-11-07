@@ -9,3 +9,51 @@
     {{ form.as_p }}
     <button class="text-center btn btn-primary" type="submit">Continue</button>
 </form>
+
+<!-- <form method="post">
+    {% csrf_token %}
+    {{ category_form.as_p }}
+    {{ subcategory_form.as_p }}
+    {{ product_form.as_p }}
+</form> -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#id_staff') & $('#id_booking_date').on('change', function() {
+        
+        var staff_id = $('#id_staff').val();
+        var booking_date = $('#id_booking_date').val();
+
+        console.log(booking_date, staff_id);
+        if (  booking_date != null & staff_id != null) {
+            $.ajax({
+                url: '/booking/BookAppointment/Timeslot/',
+                async: !1,
+                data: {'staff_id': staff_id, 'booking_date': booking_date},
+                success: function(data) {
+                    console.log(data)
+                    $('#id_start_time').html(data);
+                }
+            });
+        } else {
+            $('#id_start_time').empty();
+        }
+    });
+
+    // $('#id_subcategory').on('change', function() {
+    //     var subcategoryId = $(this).val();
+    //     if (subcategoryId) {
+    //         $.ajax({
+    //             url: '/get_products/',
+    //             data: {'subcategory_id': subcategoryId},
+    //             success: function(data) {
+    //                 $('#id_product').html(data);
+    //             }
+    //         });
+    //     } else {
+    //         $('#id_product').empty();
+    //     }
+    // });
+});
+</script>
