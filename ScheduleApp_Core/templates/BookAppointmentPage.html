@@ -20,17 +20,40 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('#id_staff') & $('#id_booking_date').on('change', function() {
+    $('#id_booking_date').on('change', function() {
         
+        var duration = $('#id_duration').val();
         var staff_id = $('#id_staff').val();
         var booking_date = $('#id_booking_date').val();
 
-        console.log(booking_date, staff_id);
+        console.log(booking_date, staff_id, duration);
         if (  booking_date != null & staff_id != null) {
             $.ajax({
                 url: '/booking/BookAppointment/Timeslot/',
                 async: !1,
-                data: {'staff_id': staff_id, 'booking_date': booking_date},
+                data: {'staff_id': staff_id, 'booking_date': booking_date, 'duration':duration},
+                success: function(data) {
+                    console.log(data)
+                    $('#id_start_time').html(data);
+                }
+            });
+        } else {
+            $('#id_start_time').empty();
+        }
+    });
+
+    $('#id_staff').on('change', function() {
+        
+        var duration = $('#id_duration').val();
+        var staff_id = $('#id_staff').val();
+        var booking_date = $('#id_booking_date').val();
+
+        console.log(booking_date, staff_id, duration);
+        if (  booking_date != null & staff_id != null) {
+            $.ajax({
+                url: '/booking/BookAppointment/Timeslot/',
+                async: !1,
+                data: {'staff_id': staff_id, 'booking_date': booking_date, 'duration':duration},
                 success: function(data) {
                     console.log(data)
                     $('#id_start_time').html(data);
