@@ -1,1 +1,4 @@
-<option value="{{content}}">{{content}}</option>
+{% for i in content %}
+    {{ i|safe  }}
+{% endfor %}
+

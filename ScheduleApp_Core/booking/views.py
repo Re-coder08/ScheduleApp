@@ -5,50 +5,59 @@ from .forms import BookingForm
 from accounts.models import Staff, Customer, CustomerProfile, StaffProfile
 from booking.models import Booking
 
+from .slots import GetAllSlots, GetAllBookedSlots, CheckOverlapSlots, GenOptionTags
+
 from datetime import time, datetime, timedelta
 # Create your views here.
 
 @login_required
 def BookAppointment(request):
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        print("form :::: {}".format(form))
+        if form.is_valid():
+            duration = form.cleaned_data['duration']
+            staff = form.cleaned_data['staff']
+            booking_date = form.cleaned_data['booking_date']
+            start_time = (request.POST.get('start_time')).split('-')[0].strip()
+            end_time = (request.POST.get('start_time')).split('-')[1].strip()
+            customer = request.user.id
+            print([duration,staff,booking_date,customer, start_time, end_time])
 
-    form = BookingForm()
-    return render(request, 'BookAppointmentPage.html', {'form':form})
 
+            placeholder_dt = datetime.fromisoformat(str(booking_date))
+            obj_start_tm = datetime.combine(placeholder_dt, datetime.strptime(start_time, '%H:%M:%S').time()) 
+            obj_end_tm = datetime.combine(placeholder_dt, datetime.strptime(end_time, '%H:%M:%S').time())
+            
+            staff_instance = Staff.objects.filter(pk = int(staff)).all().order_by('-pk')
+            customer_instance = Customer.objects.filter(pk = int(customer)).all().order_by('-pk')
 
-def add_duration_to_date(request, start_tm, add_dur):
-    print("add duration data  ::: {0},, {1}".format(start_tm, add_dur))
-    placeholder_dt = datetime.fromisoformat('9999-01-01')
-    append_tm = datetime.combine(placeholder_dt, start_tm[0]) + timedelta(hours=add_dur.hour, minutes=add_dur.minute)
-    print("after time  ::: {0},, {1}".format(start_tm, append_tm))
+            print([duration,staff,booking_date,customer, obj_start_tm, obj_end_tm, staff_instance])
+            try:
+                Booking.objects.create(staff = staff_instance[0]
+                                    , customer = customer_instance[0]
+                                    , start_time =  obj_start_tm
+                                    , end_time = obj_end_tm
+                                    , durations = int(duration)
+                                    , payment_status = 'Unpaid'
+                                   )
+                content = Booking.objects.filter(customer = customer_instance[0]).all().order_by('-pk').first()
+                return render(request, 'SuccessBooking.html', {'content': content})
+            except Exception as err:
+                print(f"Unexpected {err=}, {type(err)=}")
+                raise
+                print(" Error while making the booking. Please try again!")
+
+    else:
+        form = BookingForm()
+        return render(request, 'BookAppointmentPage.html', {'form':form})
     
-    return (append_tm.time(), )  
 
-def GetAllSlots(request, staff_id, booking_date, duration):
-        
-        start_tm = StaffProfile.objects.filter(user_id = int(staff_id)).all().values_list('staff_start_time')[0]
-        end_tm = StaffProfile.objects.filter(user_id = int(staff_id)).all().values_list('staff_end_time')[0]
-        # print("All data : {}".format((request, staff_id, start_tm[0], str(start_tm[0]), str(end_tm[0]))))
-
-        slots = [start_tm]
-        add_dur = duration
-        if duration == '60':
-            add_dur = time.fromisoformat('01:00:00')
-        if duration == '30' or duration == None:
-            add_dur = time.fromisoformat('00:30:00')
-
-        while start_tm[0] < end_tm[0]:
-            start_tm = add_duration_to_date(request, start_tm, add_dur)
-            # print(start_tm)
-            slots.append(start_tm)
-
-        slots = [ i[0] for i in slots]
-        print("here : {}".format(slots))
-        return slots
-
-def GetAllBookedSlots(request, staff_user, booking_date, duration):
-     print(type(staff_user))
-     BookedSlots = Booking.objects.filter(staff_id = int(staff_user)).all().values_list('start_time', 'end_time')
-     print("Booked Slots : {0} ".format(BookedSlots))
+# duration: 60
+# booking_date: 2023-11-09
+# staff: 19
+# start_time: (datetime.time(6, 0), datetime.time(7, 0))
+             
 
 @login_required
 def GetTimeslot(request):
@@ -60,6 +69,14 @@ def GetTimeslot(request):
 
     content_1 = GetAllSlots(request, staff_user, booking_date, duration)
     content_2 = GetAllBookedSlots(request, staff_user, booking_date, duration)
+    AvailSlots = CheckOverlapSlots(request, content_1, content_2)
 
-    return render(request, 'StaffTimeslots.html', {'content':content_1[0]})
+    
+
+    AvailSlotsSTR = [["{0} - {1}".format(str(s[0]), str(s[1])), "{0} - {1}".format(str(s[0]), str(s[1])) ]for s in AvailSlots]
+    final_slots_out = GenOptionTags(request, AvailSlotsSTR)
+    print("AvailSlotsSTR :: {}".format(final_slots_out))
+    return render(request, 'StaffTimeslots.html', {'content':final_slots_out})
+
+    
 
