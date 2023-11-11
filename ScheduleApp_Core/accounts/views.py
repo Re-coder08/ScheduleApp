@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 
 from django.contrib.auth import authenticate, login, logout
 from django.template import RequestContext
+from django.contrib import messages
+from django.contrib.auth.hashers import make_password
 
 
 from .models import Staff, Customer, User
@@ -19,14 +21,20 @@ def StaffSignUp(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
-            password = form.cleaned_data['password1']
+            password = make_password(form.cleaned_data['password1'])
             
-            Staff.objects.create(username = username, password=password, email=email)
-
-            return render(request, 'SignUpPageStatus.html', {'signupatatus':"Success"})
+            Staff.objects.create(username = username, password=password, email=email, is_staff = True)
+            messages.success(request, 'Satff account created successfully. Please login now')
+            # return render(request, 'SignUpPageStatus.html', {'signupatatus':"Success"})
+            return redirect('Login')
         else:
-            return render(request, 'SignUpPageStatus.html', {'signupatatus':"Fail"})
+            messages.success(request, 'Failed to Create the Staff account. Please try again')
+            # return render(request, 'SignUpPageStatus.html', {'signupatatus':"Fail"})
+            return redirect('StaffSignUp')
     else:
+        if request.user.is_authenticated:
+            logout(request)
+            redirect('StaffSignUp')
         formType = 'Staff'
         form = StaffSignUpForm()
 
@@ -40,19 +48,23 @@ def CustomerSignUp(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
-            password = form.cleaned_data['password1']
+            password = make_password(form.cleaned_data['password1'])
             
             Customer.objects.create(username = username, password=password, email=email)
 
-            return render(request, 'SignUpPageStatus.html', {'signupatatus':"Success"})
+            # return render(request, 'SignUpPageStatus.html', {'signupatatus':"Success"})
+            messages.success(request, 'Customer account created successfully. Please login now')
+            return redirect('Login')
         else:
-            return render(request, 'SignUpPageStatus.html', {'signupatatus':"Fail"})
+            # return render(request, 'SignUpPageStatus.html', {'signupatatus':"Fail"})
+            messages.success(request, 'Failed to Create the Customer account. Please try again')
+            return redirect('StaffSignUp')
     else:
         formType = 'Customer'
         form = CustomerSignUpForm()
 
         return render(request, 'CustomSignUpPage.html', {'form': form, 'formType': formType})
-    
+
 
 def AdminSignUp(request):
     if request.method == 'POST':
@@ -61,7 +73,7 @@ def AdminSignUp(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
-            password = form.cleaned_data['password1']
+            password = make_password(form.cleaned_data['password1'])
             
             User.objects.create(username = username, password=password, email=email, is_staff= True, is_superuser=True)
 
@@ -82,7 +94,7 @@ def LoginView(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-
+            print("user and password : {}".format((username, password)) )
             user = authenticate(request, username=username, password=password)
             print("user ::: {}".format(user))
             if user is not None:
@@ -92,6 +104,7 @@ def LoginView(request):
 
             else: 
                 print("Auth failed")
+                return redirect('Login')
 
 
     else:

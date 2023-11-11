@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from .forms import BookingForm
 from accounts.models import Staff, Customer, CustomerProfile, StaffProfile
@@ -42,11 +43,15 @@ def BookAppointment(request):
                                     , payment_status = 'Unpaid'
                                    )
                 content = Booking.objects.filter(customer = customer_instance[0]).all().order_by('-pk').first()
-                return render(request, 'SuccessBooking.html', {'content': content})
+                messages.success(request, 'Booking Submitted Successfully!!')
+                return redirect('BookAppointment')
             except Exception as err:
                 print(f"Unexpected {err=}, {type(err)=}")
-                raise
                 print(" Error while making the booking. Please try again!")
+                messages.error(request, 'Booking failed. Please check the values you entered.')
+                redirect('BookAppointment')
+                raise
+                
 
     else:
         form = BookingForm()

@@ -10,7 +10,7 @@ class User(AbstractUser):
         CUSTOMER = "CUSTOMER", "Customer"
         STAFF = "STAFF", "Staff"
 
-    base_role = Role.ADMIN
+    base_role = Role.CUSTOMER
 
     role = models.CharField(max_length=50, choices=Role.choices)
 
@@ -66,8 +66,7 @@ class StaffManager(BaseUserManager):
 class Staff(User):
 
     base_role = User.Role.STAFF
-
-    teacher = StaffManager()
+    staff = StaffManager()
 
     class Meta:
         proxy = True

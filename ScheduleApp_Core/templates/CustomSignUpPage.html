@@ -11,6 +11,7 @@
   </head>
 
 <body>
+  {% include 'messages.html' %}
     <h1>{{ formType }} Sign Up: </h1>
     <form class="text-center" method="post">
         {% csrf_token %}
