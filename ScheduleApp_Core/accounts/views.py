@@ -10,8 +10,8 @@ from .models import Staff, Customer, User
 from .forms import StaffSignUpForm, CustomerSignUpForm, AdminSignUpForm, LoginForm
 # Create your views here.
 
-def HomePage(request):
-    return render(request, 'base.html')
+# def HomePage(request):
+#     return render(request, 'base.html')
 
 def StaffSignUp(request):
     if request.method == 'POST':
@@ -60,6 +60,9 @@ def CustomerSignUp(request):
             messages.success(request, 'Failed to Create the Customer account. Please try again')
             return redirect('StaffSignUp')
     else:
+        if request.user.is_authenticated:
+            logout(request)
+            redirect('CustomerSignUp')
         formType = 'Customer'
         form = CustomerSignUpForm()
 

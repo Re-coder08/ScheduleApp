@@ -1,0 +1,9 @@
+<div class="container-fluid text-center">
+    <form hx-post="{% url 'MyAccountEdit' %}" hx-target="#Account-deatils">
+        <h1 class="text-center"> Update Profile Details: </h1>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="text-center btn btn-primary" type="submit">Save</button>
+        <a href="{% url 'MyAccount' %}"> Back </a>
+    </form>
+</div>

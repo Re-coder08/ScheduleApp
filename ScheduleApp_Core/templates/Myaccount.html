@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+{% include 'messages.html' %}
+<br>
+<div class="container-fluid text-center" id = "Account-deatils">
+    <h1 class="text-center"> Profile Details: </h1>
+    <h3 class="text-center"> Username : {{ username }}</h3>
+    <H3 class="text-center"> First Name : {{ first_name }}</H3>
+    <H3 class="text-center"> Last Name : {{ last_name }}</H3>
+    <H3 class="text-center"> Email : {{ email }}</H3>
+    <br>
+    <button class="text-center btn btn-primary" 
+            hx-get = "{% url 'MyAccountEdit' %}"
+            hx-target = "#Account-deatils"
+            >Edit</button>
+</div>
+
+
+
+
+{% else %}
+<p>You are not logged in</p>
+<a href="{% url 'login' %}">Log In</a>
+{% endif %}
+{% endblock %}

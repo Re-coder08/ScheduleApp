@@ -22,7 +22,7 @@ class BookingForm(forms.Form):
                             #   , widget=forms.Select(attrs={"hx-get":"Timeslot/", "hx-target":"#id_start_time"})
                               )
     start_time = CustomChoiceField(required=True)
-
+    # print("here ::::===>> {}".format([(i.pk, i.username) for i in Staff.objects.filter(role = 'STAFF').all()]))
     class Meta:
         model = Booking
         fields = ('duration','booking_date','staff','start_time')
