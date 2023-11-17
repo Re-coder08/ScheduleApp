@@ -1,7 +1,32 @@
-<h1>Login Page :</h1>
+{% extends 'base_auth.html' %}
+
+{% block content %}
+
+
+
+<br>
+<h1 class="text-center">Login Page :</h1>
+<br>
 {% include 'messages.html' %}
 <form class="text-center" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="form-group ">
+                {% csrf_token %}
+                {{ form.as_p }}
+            </div>
+        </div>
+    </div>
+    
     <button class="text-center btn btn-primary" type="submit">Login</button>
 </form>
+
+<br>
+<form class="text-center" action="{% url 'CustomerSignUp' %}">
+    <label class="text-center"> <small> Don't have a account? please create once here </small> </label>
+    <br>
+    <button class="text-center btn btn-info" type="submit" > Sign Up </button>
+</form>
+
+
+{% endblock %}

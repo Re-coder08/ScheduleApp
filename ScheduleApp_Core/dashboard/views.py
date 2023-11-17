@@ -47,8 +47,9 @@ def MyAccountEdit(request):
         form = MyAccountForm(request.POST)
         print(f'form data ::: {form}')
         # if form.is_valid():
-        ## add validatin here befor updating the values in the database
         
+        ## add validatin here befor updating the values in the database
+    
         # username = form.cleaned_data['username']
         first_name = form.cleaned_data['first_name']
         last_name = form.cleaned_data['last_name']

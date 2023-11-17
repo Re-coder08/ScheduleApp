@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-b5l7&w14tkux3(&vj4qmxgh0l5k_fx^36uc6(-6(fv=+5^8)(&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["192.168.1.194", "127.0.0.1"]
 
 
 # Application definition
@@ -40,7 +41,6 @@ INSTALLED_APPS = [
     'accounts',
     'booking',
     'dashboard',
-
     'crispy_forms',
 ]
 
@@ -122,7 +122,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -143,4 +146,7 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Session timeout of 5 minutes
 SESSION_COOKIE_AGE = 300  # 300 seconds (5 minutes)
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

@@ -2,8 +2,41 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<div class="container-fluid">
+<div class="container-fluid col-md-6">
     <H1 class="text-center">{{ content }}</H1>
+    <br>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Sn.o</th>
+                <th scope="col">Booking Date</th>
+                <th scope="col">Booking Start time</th>
+                <th scope="col">Booking End time</th>
+                <th scope="col">Staff</th>
+                <th scope="col">Price</th>
+                <th scope="col">Status</th>
+                <!-- Add more table headers for each column -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in queryset %}
+                <tr>
+                    <td>Test1</td>
+                    <td>Test2</td>
+                    <td>Test3</td>
+                    <td>Test4</td>
+                    <td>Test5</td>
+                    <td>Test6</td>
+                    <td>Test7</td>
+                    <!-- <td>{{ item.field1 }}</td>
+                    <td>{{ item.field2 }}</td> -->
+                    <!-- Add more table cells for each column -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 </div>
 
 
