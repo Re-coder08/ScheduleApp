@@ -8,8 +8,8 @@
 4. edit bookings by admin/staff
 5. setup permissions by group or individual permissions
 6. setup payment process
-7. Add basic fornt end features
-8. Fixing the sign up process ---> working on this now
+7. (working) Add credits/payments models
+8. (working) book/view/edit classes
 
 
 
