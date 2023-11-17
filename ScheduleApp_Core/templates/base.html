@@ -9,8 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 </head>
-
-<body>
+<!-- need to update the body style to diff css file. this is temp for now -->
+<body style="
+    background-color: #fcfbf4
+    ">
+    {% load static %}
+    <div class="jumbotron">
+        <img src="{% static 'logo.png' %}"  class="img-fluid align-top text-center">
+    </div>
 
     <ul class="nav nav-pills nav-fill -sm">
         <li class="nav-item">
