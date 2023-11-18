@@ -2,13 +2,15 @@
 
 {% block content %}
 
-<h1>Appointment Booking : </h1>
+<h1 class="text-center">Book New Class: </h1>
 {% include 'messages.html' %}
 <form class="text-center" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     
     <button class="text-center btn btn-primary" type="submit">Continue</button>
+</form><form class="text-center" action="{% url 'MyClasses' %}">
+    <button class="text-center btn btn-alert" type="submit">Back</button>
 </form>
 
 

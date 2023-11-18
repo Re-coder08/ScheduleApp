@@ -2,14 +2,24 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<div class="container-fluid col-md-6">
-    <H1 class="text-center">{{ content }}</H1>
+
+<br>
+<br>
+<div class="container-fluid col-md-10">
+    <form class="text-center" action="{% url 'BookAppointment' %}">
+        <button class="text-center btn btn-info" type="submit" > Book New Class </button>
+    </form>
+</div>
+<br>
+<br>
+<div class="container-fluid col-md-10">
+    <H3 class="text-center">{{ content }}</H3>
     <br>
 
-    <table class="table">
+    <table class="table text-center">
         <thead>
             <tr>
-                <th scope="col">Sn.o</th>
+                <th scope="col">Sn.no</th>
                 <th scope="col">Booking Date</th>
                 <th scope="col">Booking Start time</th>
                 <th scope="col">Booking End time</th>

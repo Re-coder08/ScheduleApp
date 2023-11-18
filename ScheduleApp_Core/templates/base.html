@@ -10,12 +10,13 @@
 
 </head>
 <!-- need to update the body style to diff css file. this is temp for now -->
+{% if user.is_authenticated %}
 <body style="
     background-color: #fff9e9
     ">
     {% load static %}
     <div class="jumbotron text-center">
-        <img src="{% static 'logo3.png' %}"  class="img-fluid align-top " width="80%">
+        <img src="{% static 'logo3.png' %}"  class="img-fluid align-top " width="50%">
     </div>
 
     <ul class="nav nav-pills nav-fill -sm">
@@ -30,7 +31,7 @@
         </li>
         {% if user.is_authenticated %}
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'Login' %}">Logout</a>
+            <a class="nav-link" href="{% url 'Logout' %}">Logout</a>
         </li>
         {% else %}
         <li class="nav-item">
@@ -54,3 +55,11 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
+{% else %}
+
+<div class="container-fluid text-center">
+    <h2>You are not logged in. Please login here </h2>
+    <a class="text-center" href="{% url 'Login' %}">Login</a>
+</div>
+
+{% endif %}

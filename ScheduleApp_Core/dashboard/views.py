@@ -16,14 +16,7 @@ def HomePage(request):
         else:
             return redirect('Login')
 
-@login_required
-def MyClasses(request):
-    if request.method == 'POST':
-        pass
-    else:
-        content = "My Classes"
-        return render(request, 'Myclasses.html', {'content': content})
-    
+
 @login_required
 def MyAccount(request):
 
@@ -67,8 +60,8 @@ def MyAccountEdit(request):
             print(f"Unexpected {err=}, {type(err)=}")
             print(" Error while making the booking. Please try again!")
             messages.error(request, 'Profile update Failed. Please check the values you entered.')
-            redirect('BookAppointment')
-            raise 
+            return redirect('MyAccount')
+             
             
 
     if request.method == 'GET':
@@ -78,6 +71,13 @@ def MyAccountEdit(request):
         return render(request, 'Myaccountedit.html', content)
 
 
-
+@login_required
+def MyClasses(request):
+    if request.method == 'POST':
+        pass
+    else:
+        content = "My Classes"
+        return render(request, 'Myclasses.html', {'content': content})
+    
 
         
