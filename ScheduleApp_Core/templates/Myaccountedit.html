@@ -1,9 +1,40 @@
-<div class="container-fluid text-center">
-    <form hx-post="{% url 'MyAccountEdit' %}" hx-target="#Account-deatils">
-        <h1 class="text-center"> Update Profile Details: </h1>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="text-center btn btn-primary" type="submit">Save</button>
-        <a href="{% url 'MyAccount' %}"> Back </a>
-    </form>
+<div class="text-center" id="Account-deatils">
+    <div class="card">
+        <div class="card-header">
+        <h4>Update Profile Details:</h4>
+      </div>
+        <div class="card-body text-start">
+            <div class="container-fluid text-center">
+                <form hx-post="{% url 'MyAccountEdit' %}" hx-target="#Account-deatils">
+                    <h1 class="text-center"> Update Profile Details: </h1>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="text-center btn btn-primary" type="submit">Save</button>
+                    <a href="{% url 'MyAccount' %}"> Back </a>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+<!-- <div class="container-fluid text-center" id="Account-deatils">
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Username : {{ username }}</h5>
+        </div>
+        <div class="card-body">
+            <form hx-post="{% url 'MyAccountEdit' %}" hx-target="#Account-deatils">
+                <h1 class="text-center"> Update Profile Details: </h1>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="text-center btn btn-primary" type="submit">Save</button>
+                <a href="{% url 'MyAccount' %}"> Back </a>
+            </form>
+            <button class="text-center btn btn-primary" hx-get="{% url 'MyAccountEdit' %}"
+                hx-target="#Account-deatils">Edit</button>
+        </div>
+    </div>
+</div> -->

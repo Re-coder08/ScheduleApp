@@ -3,21 +3,43 @@
 {% block content %}
 {% if user.is_authenticated %}
 {% include 'messages.html' %}
+{% load static %}
 <br>
-<div class="container-fluid text-center" id = "Account-deatils">
-    <h1 class="text-center"> Profile Details: </h1>
-    <br>
-    <h4> Username : {{ username }}</h4>
-    <H4> First Name : {{ first_name }}</H4>
-    <H4> Last Name : {{ last_name }}</H4>
-    <H4> Email : {{ email }}</H4>
-    <br>
-    <button class="text-center btn btn-primary" 
-            hx-get = "{% url 'MyAccountEdit' %}"
-            hx-target = "#Account-deatils"
-            >Edit</button>
-</div>
 
+<div class="container">
+    <div class="row g-4">
+        <div class="col-sm-4" >
+            <div class="text-center">
+                <div class="card w-auto text-start">
+                    <img class="card-img" src="{% static 'profile_pic.png' %}">
+                    <div class="card-img-overlay">
+                        <!-- <h5 class="card-title">Edit Profile Photo</h5>
+                        <p class="card-text">Click here to update your profile picture</p> -->
+                        <a href="#" class="btn btn-primary">Edit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col" >
+            <div class="text-center" id="Account-deatils">
+                <div class="card">
+                    <div class="card-header">
+                    <h4>Profile Details</h4>
+                  </div>
+                    <div class="card-body text-start">
+                        <h2 class="card-title" style="color: gray;">{{ username }}</h2>
+                        <h5 class="card-text">First Name : {{ first_name }}</h5>
+                        <h5 class="card-text">Last Name : {{ last_name }}</h5>
+                        <h5 class="card-text">Email : {{ email }}</h5>
+                        <br>
+                        <button class="text-center btn btn-primary" hx-get="{% url 'MyAccountEdit' %}"
+                            hx-target="#Account-deatils">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

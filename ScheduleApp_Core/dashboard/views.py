@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import HttpResponse
 
 from accounts.models import Customer
+from booking.models import Booking
 from .forms import MyAccountForm
 
 # Create your views here.
@@ -55,12 +57,15 @@ def MyAccountEdit(request):
             Customer.objects.filter(pk=request.user.id).update(first_name = first_name, last_name = last_name, email = email)
             print(f'Updated the Customer values Successfully to : {[ first_name, last_name, email]}')
             messages.error(request, 'Profile updated Successfully.')
-            return redirect('MyAccount')
+            html = '<div class="alert alert-dismissible alert-success" ><strong>Updated the details. Please click <a href="/dashboard/Myaccount/">here</a> to refresh</strong></div>'
+            return HttpResponse(html)
+            
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
             print(" Error while making the booking. Please try again!")
             messages.error(request, 'Profile update Failed. Please check the values you entered.')
             return redirect('MyAccount')
+            
              
             
 
@@ -76,8 +81,16 @@ def MyClasses(request):
     if request.method == 'POST':
         pass
     else:
-        content = "My Classes"
-        return render(request, 'Myclasses.html', {'content': content})
+    
+        customer = request.user.id
+        customer_instance = Customer.objects.filter(pk = int(customer)).all().order_by('-pk')
+        data = Booking.objects.filter(customer = customer_instance[0]).all().order_by('-pk')
+
+        content = {'content': data}
+        print(f'customer : {customer}')
+        print(f'dacustomer_instanceta : {customer_instance}')
+        print(f'data : {data}')
+        return render(request, 'Myclasses.html', content)
     
 
         

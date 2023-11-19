@@ -12,12 +12,13 @@
 </div>
 <br>
 <br>
-<div class="container-fluid col-md-10">
-    <H3 class="text-center">{{ content }}</H3>
+<div class="container-fluid col-sm-8">
+    <H3 class="text-center">My Classes</H3>
     <br>
-
-    <table class="table text-center">
+<div class="table-responsive">
+    <table class="table table-striped text-center">
         <thead>
+            
             <tr>
                 <th scope="col">Sn.no</th>
                 <th scope="col">Booking Date</th>
@@ -25,28 +26,26 @@
                 <th scope="col">Booking End time</th>
                 <th scope="col">Staff</th>
                 <th scope="col">Price</th>
-                <th scope="col">Status</th>
+                <th scope="col">Payment Status</th>
                 <!-- Add more table headers for each column -->
             </tr>
+            
         </thead>
         <tbody>
-            {% for item in queryset %}
-                <tr>
-                    <td>Test1</td>
-                    <td>Test2</td>
-                    <td>Test3</td>
-                    <td>Test4</td>
-                    <td>Test5</td>
-                    <td>Test6</td>
-                    <td>Test7</td>
-                    <!-- <td>{{ item.field1 }}</td>
-                    <td>{{ item.field2 }}</td> -->
-                    <!-- Add more table cells for each column -->
-                </tr>
-            {% endfor %}
+            {% for i in content %}
+            <tr>
+                <th scope="row">{{i.booking_id}}</th>
+                <td>{{i.start_time}}</td>
+                <td>{{i.start_time}}</td>
+                <td>{{i.end_time}}</td>
+                <td>{{i.staff}}</td>
+                <td>$0</td>
+                <td>{{i.payment_status}}</td>
+              </tr>
+              {% endfor %}
         </tbody>
     </table>
-
+</div>
 </div>
 
 
